@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Project Title
 Aviva Project Allocation Tracker - a proof of concept of a project allocation tracking system
 
@@ -84,3 +85,7 @@ This will give more verbose outputs of testing results
 
 ## Authors
 Courtney O'Flaherty
+=======
+# seaproject
+Software Engineering and Agile project
+>>>>>>> c602268b3b5e511232d0b1383c28ff1879758d73
