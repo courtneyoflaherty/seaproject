@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="https://fonts.cdnfonts.com/css/schibsted-grotesk" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Developer - Aviva Project Tracker</title>
+</head>
+<body>
+
+<!-- Header -->
+<div class="header-banner">
+    <a href="/" class="header-logo-link">
+        <img src="https://static.aviva.io/content/dam/aviva-corporate/images/article-page-and-carousel-840-x-473/different-sized-images/aviva-primary-logo-transparent-blue-240-135px.svg" alt="Aviva Logo">
+    </a>
+     <h1>Aviva Project Allocation Tracker</h1>
+  <!-- Checks if admin privileges for access to User Management-->
+  {% if session.get('is_admin') %}
+    <a href="{{ url_for('user_management') }}" class="blue-button header-button" style="right: 140px; background-color: var(--dark-green);">User Management</a>
+  {% endif %}
+  <a href="{{ url_for('logout') }}" class="blue-button header-button">Sign Out</a>
+</div>
+
+<!-- White box for space -->
+ <div style="height: 40px;"></div>
+
+ <!-- Blue Background Container -->
+  <div style="background: var(--aviva-blue); border-radius: 30px; padding: 40px 0 40px 0; width: 95vw; max-width: 1800px; margin: 0 auto 50px auto; display: flex; justify-content: center; align-items: flex-start; position: relative;">
+     <!-- White Background Container -->
+     <div style="background: #fff; border-radius: 30px; padding: 40px 40px 30px 40px; width: 90vw; max-width: 900px; min-width: 320px; margin: 0 auto; display: block; position: relative;">   
+        <!-- Yellow Text Box -->
+        <h1 style="background-color: var(--aviva-yellow); border-radius: 20px; padding: 10px 30px; display: inline-block;">Add Developer</h1>
+        <!-- Form start-->
+        <form method="POST" action="/adddeveloper" style="width: 100%; margin: auto;">
+            <!-- Form input fields -->
+            <div style="padding: 15px; display: flex; flex-direction: row; align-items: center; gap: 18px;">
+                 <!-- Developer Name with regex validation for inputs -->
+                <label for="first_name" style="font-weight: bold; min-width: 170px; margin-bottom: 0;">First Name:*</label>
+                <input 
+                    id="first_name" 
+                    type="text" 
+                    name="first_name" 
+                    required                     
+                    pattern="^[A-Za-z ]{2,}$"
+                    minlength="2"
+                    maxlength="100"
+                    title="Developer first name must be at least 2 characters long, not contain numbers or punctuation, and not exceed 100 characters." 
+                    style="flex: 1; width: 100%;">
+            </div>
+          <!-- Developer Surname -->
+          <div style="padding: 15px; display: flex; flex-direction: row; align-items: center; gap: 18px;">
+                <!-- Developer Surname with regex validation for inputs -->
+                <label for="surname" style="font-weight: bold; min-width: 170px; margin-bottom: 0;">Surname:*</label>
+                <input 
+                id="surname" 
+                type="text" 
+                name="surname" 
+                required 
+                pattern="^[A-Za-z ]{2,}$"
+                minlength="2"
+                maxlength="100"
+                title="Developer surname must be at least 2 characters long, not contain numbers or punctuation, and not exceed 100 characters." 
+                style="flex: 1; width: 100%;">
+            </div>
+            <!-- Developer Email -->
+            <div style="padding: 15px; display: flex; flex-direction: row; align-items: center; gap: 18px;">
+                <label for="email" style="font-weight: bold; min-width: 170px; margin-bottom: 0;">Email:*</label>
+                <input 
+                    id="email" 
+                    type="email" 
+                    name="email" 
+                    required 
+                    minlength="2"
+                    maxlength="254" 
+                    pattern="^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$"
+                    title="Developer email must be at least 2 characters long, contain an '@' symbol, and not exceed 254 characters." 
+                    style="flex: 1; width: 100%;">
+            </div>
+
+        <!-- Developer Skills -->
+        <div style="padding: 15px; display: flex; flex-direction: row; align-items: flex-start; gap: 18px;">
+            <label style="font-weight: bold; min-width: 170px; margin-bottom: 0;">Skills:*</label>
+               <div style="display: flex; gap: 18px; flex-wrap: wrap; align-items: center; flex: 1;">
+                    <!-- DeveloperSkills Checkboxes -->
+                    <label style="display: flex; align-items: center; gap: 4px; margin-bottom: 0; font-weight: normal;">
+                        <input type="checkbox" name="skills" value="Appian"> Appian
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 4px; margin-bottom: 0; font-weight: normal;">
+                        <input type="checkbox" name="skills" value="Appian RPA"> Appian RPA
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 4px; margin-bottom: 0; font-weight: normal;">
+                        <input type="checkbox" name="skills" value="BluePrism"> BluePrism
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 4px; margin-bottom: 0; font-weight: normal;">
+                        <input type="checkbox" name="skills" value="Power Apps"> Power Apps
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 4px; margin-bottom: 0; font-weight: normal;">
+                        <input type="checkbox" name="skills" value="Tungsten"> Tungsten
+                    </label>
+                </div>
+            </div>
+             <!-- Script to ensure at least 1 required skill is selected -->
+              <script>
+                function validateDeveloperSkills(event) {
+                  const checkboxes = document.querySelectorAll('input[name="skills"]');
+                  let checked = false;
+                  for (let i = 0; i < checkboxes.length; i++) {
+                    if (checkboxes[i].checked) {
+                      checked = true;
+                      break;
+                    }
+                  }
+                  if (!checked) {
+                    alert('Please select at least one developer skill.');
+                    event.preventDefault();
+                    return false;
+                  }
+                  return true;
+                }
+                document.addEventListener('DOMContentLoaded', function() {
+                  const form = document.querySelector('form[action="/adddeveloper"]');
+                  if (form) {
+                    form.addEventListener('submit', validateDeveloperSkills);
+                  }
+                });
+              </script>
+
+            <!-- Container for Buttons -->
+            <div style="display: flex; justify-content: center; gap: 20px; padding: 15px;">
+                <!-- Submit Button -->
+                <button type="submit" class="blue-button">Add Developer</button>
+                <!-- Cancel Button -->
+                <a href="{{ url_for('developer_view') }}" class="light-blue-button">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+ <!-- Flash messages for user feedback -->
+ {% with messages = get_flashed_messages() %}
+    {% if messages %}
+        <ul class="flash-messages">
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endwith %}
+
+
+<!-- Footer -->
+<footer class="footer">
+  <a href="https://www.aviva.co.uk/services/about-our-business/products-and-services/privacy-policy/" target="_blank">Privacy Policy</a>
+  <a href="https://static.aviva.io/content/dam/aviva-corporate/documents/socialpurpose/pdfs/aviva-modern-slavery-statement-2024.pdf" target="_blank">Modern Slavery Statement</a>
+  <a href="https://www.aviva.com/legal/" target="_blank">Legal</a>
+</footer>
+</div>
+</body>
+</html>

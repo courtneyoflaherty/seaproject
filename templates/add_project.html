@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>  
+  <link href="https://fonts.cdnfonts.com/css/schibsted-grotesk"  rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../static/style.css">
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Add New Project - Aviva Project Tracker</title>
+</head>
+<body>
+
+<!-- Header Banner -->
+  <div class="header-banner">
+    <a href="/" class="header-logo-link">
+      <img src="https://static.aviva.io/content/dam/aviva-corporate/images/article-page-and-carousel-840-x-473/different-sized-images/aviva-primary-logo-transparent-blue-240-135px.svg" 
+           alt="Aviva Logo">
+    </a>
+    <h1>Aviva Project Allocation Tracker</h1>
+  <!-- Checks if admin privileges for access to User Management-->
+  {% if session.get('is_admin') %}
+    <a href="{{ url_for('user_management') }}" class="blue-button header-button" style="right: 140px; background-color: var(--dark-green);">User Management</a>
+  {% endif %}
+  <a href="{{ url_for('logout') }}" class="blue-button header-button">Sign Out</a>
+</div>
+
+  <!-- White box for space -->
+  <div style="height: 40px;"></div>
+
+  <!-- Blue box -->
+  <div style="background: var(--aviva-blue); border-radius: 30px; padding: 40px 0 40px 0; width: 95vw; max-width: 1800px; margin: 0 auto 50px auto; display: flex; justify-content: center; align-items: flex-start; position: relative;">
+    <!-- White box -->
+    <div style="background: #fff; border-radius: 30px; padding: 40px 40px 30px 40px; width: 90vw; max-width: 900px; min-width: 320px; margin: 0 auto; display: block; position: relative;">
+       <!-- Yellow Text Box -->
+      <h1 style="background-color: var(--aviva-yellow); border-radius: 20px; padding: 10px 30px; display: inline-block;">Add New Project</h1>
+      <!-- Form start-->
+      <form method="POST" action="{{ url_for('add_project') }}" style="width: 100%; margin: auto;">      
+        <!-- Form input fields -->
+        <div style="padding: 15px; display: flex; flex-direction: row; align-items: center; gap: 18px;">
+          <!-- Project Name with regex validation for inputs -->
+          <label for="name" style="font-weight: bold; min-width: 170px; margin-bottom: 0;">Project Name*:</label>
+            <input 
+              id="name" 
+              type="text" 
+              name="name" 
+              required 
+              pattern="^(?=(?:.*[A-Za-z]){2,})[A-Za-z0-9 ]+$"  
+              minlength="2"
+              title="Project name must be at least 2 characters long and not contain punctuation" 
+              style="flex: 1; width: 100%;">
+        </div>
+        <!-- Project description -->
+        <div style="padding: 15px; display: flex; flex-direction: row; align-items: center; gap: 18px;">
+          <label for="description" style="font-weight: bold; min-width: 170px; margin-bottom: 0;">Description*:</label>
+          <input
+            id="description"
+            name="description" 
+            required 
+            minlength="10"
+            title="Project description must be at least 10 characters long."
+            style="flex: 1; width: 100%;">
+        </div>
+
+        <!-- Start Date -->
+        <div style="padding: 15px; display: flex; flex-direction: row; align-items: center; gap: 18px;">
+          <label for="start_date" style="font-weight: bold; min-width: 170px; margin-bottom: 0;">Start Date*:</label>
+          <input 
+            id="start_date" 
+            type="date"             
+            name="start_date" 
+            required 
+            title="Please select a start date"
+            style="flex: 1; width: 100%;">
+        </div>
+        <!-- End Date -->
+        <div style="padding: 15px; display: flex; flex-direction: row; align-items: center; gap: 18px;">
+          <label for="end_date" style="font-weight: bold; min-width: 170px; margin-bottom: 0;">End Date*:</label>
+          <input 
+            id="end_date" 
+            type="date"             
+            name="end_date" 
+            required 
+            title="Please select an end date"
+            style="flex: 1; width: 100%;">
+        </div>
+        <!-- Required Skills -->
+        <div style="padding: 15px; display: flex; flex-direction: row; align-items: flex-start; gap: 18px;">
+          <label for="required_skills" style="font-weight: bold; min-width: 170px; margin-bottom: 0;">Required Skills*:</label>
+          <div style="display: flex; gap: 18px; flex-wrap: wrap; align-items: center; flex: 1;">
+            <!-- Required Skills Checkboxes -->
+            <label style="display: flex; align-items: center; gap: 4px; margin-bottom: 0; font-weight: normal;">
+              <input type="checkbox" name="required_skills" value="Appian" > Appian
+            </label>
+            <label style="display: flex; align-items: center; gap: 4px; margin-bottom: 0; font-weight: normal;">
+              <input type="checkbox" name="required_skills" value="Appian RPA"> Appian RPA
+            </label>
+            <label style="display: flex; align-items: center; gap: 4px; margin-bottom: 0; font-weight: normal;">
+              <input type="checkbox" name="required_skills"  value="BluePrism"> BluePrism
+            </label>
+            <label style="display: flex; align-items: center; gap: 4px; margin-bottom: 0; font-weight: normal;">
+              <input type="checkbox" name="required_skills" value="Power Apps"> Power Apps
+            </label>
+            <label style="display: flex; align-items: center; gap: 4px; margin-bottom: 0; font-weight: normal;">
+              <input type="checkbox" name="required_skills" value="Tungsten"> Tungsten
+            </label>
+          </div>
+        </div>
+          <!-- Script to ensure at least 1 required skill is selected -->
+              <script>
+               function validateRequiredSkills(event) {
+                  const checkboxes = document.querySelectorAll('input[name="required_skills"]');
+                  let checked = false;
+                  for (let i = 0; i < checkboxes.length; i++) {
+                    if (checkboxes[i].checked) {
+                      checked = true;
+                      break;
+                    }
+                  }
+                  if (!checked) {
+                    alert('Please select at least one required skill.');
+                    event.preventDefault();
+                    return false;
+                  }
+                  return true;
+                }
+                document.addEventListener('DOMContentLoaded', function() {  
+                  const form = document.querySelector("form[action=\"{{ url_for('add_project') }}\"]");
+                  if (form) {
+                    form.addEventListener('submit', validateRequiredSkills);
+                  }
+                });
+              </script>
+        <!-- Developer Assignment Details -->
+        <div style="padding: 15px 0 0 0;">
+          <p style="margin: 0; font-size: 1em; text-align: left;">
+            <span style="font-weight: bold;"> &nbsp;&nbsp;&nbsp; Optional:</span>
+            <span> Please fill in the developer assignment details if known:</span>
+          </p>
+        </div>
+        <div style="padding: 15px; display: flex; flex-direction: row; align-items: center; gap: 18px;">
+
+           <!--Assigned Developer Dropdown -->        
+          <label for="assigned_developer" style="font-weight: bold; min-width: 170px; margin-bottom: 0;">Assigned Developer:</label>
+          <select 
+            id="assigned_developer" 
+            name="assigned_developer" 
+            style="flex: 1; width: 100%;">
+            <option value="" 
+            selected>-- None --</option>
+            {% for developer in developers %}
+              <option value="{{ developer.id }}">
+                {{ developer.first_name }} {{ developer.surname }}
+              </option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <!-- Developer Time Allocation -->
+        <div style="padding: 15px; display: flex; flex-direction: row; align-items: center; gap: 18px;">
+          <label for="time_allocation" style="font-weight: bold; min-width: 170px; margin-bottom: 0;">Time Allocation (%):</label>
+          <input 
+          id="time_allocation" 
+          type="number" 
+          name="time_allocation" 
+          title="Please select a number that is between 0.01-100"
+          min="0.01"
+          max="100" 
+          step="0.01"
+          style="flex: 1; width: 100%;">
+        </div>
+
+        <!-- Developer Assignment Start Date -->
+        <div style="padding: 15px; display: flex; flex-direction: row; align-items: center; gap: 18px;">
+          <label for="assignment_start" style="font-weight: bold; min-width: 170px; margin-bottom: 0;">Assignment Start Date:</label>
+          <input 
+          id="assignment_start" 
+          type="date" 
+          name="assignment_start" 
+          title="Please select a start date"
+          style="flex: 1; width: 100%;">
+        </div>
+        
+        <!-- Developer Assignment End Date -->
+        <div style="padding: 15px; display: flex; flex-direction: row; align-items: center; gap: 18px;">
+          <label for="assignment_end" style="font-weight: bold; min-width: 170px; margin-bottom: 0;">Assignment End Date:</label>
+          <input 
+          id="assignment_end" 
+          type="date" 
+          name="assignment_end" 
+          title="Please select an end date" 
+          style="flex: 1; width: 100%;">
+        </div>
+      
+        <!-- Container for Buttons -->
+        <div style="display: flex; justify-content: center; gap: 20px; padding: 15px;">
+          <!-- Submit Button -->
+          <button type="submit" class="blue-button">Add Project</button>
+          <!-- Back to Projects Button -->
+          <a href="{{ url_for('project_view') }}" class="light-blue-button">Cancel</a>
+        </div>
+      </form>
+
+      <!-- Script to make it so if a developer is assigned, the child fields become required -->
+         <script>
+          // Define the fields and elements
+          const assignedDev = document.getElementById('assigned_developer');
+          const timeAlloc = document.getElementById('time_allocation');
+          const assignStart = document.getElementById('assignment_start');
+          const assignEnd = document.getElementById('assignment_end');
+          // Mark fields as required for that action
+          function updateRequiredFields() {
+            const required = assignedDev.value !== '';
+            timeAlloc.required = required;
+            assignStart.required = required;
+            assignEnd.required = required;
+          }      
+          // Detect changes
+          if (assignedDev) {
+          // Initialize required fields state on page load based on assigned developer
+          }
+          // Pop-up window if the required fields are left empty     
+          window.addEventListener('DOMContentLoaded', updateRequiredFields);
+        </script>
+    </div>
+  </div>
+
+  <!-- Flash messages for user feedback -->
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul class="flash-messages">
+    {% for message in messages %}
+      <li>{{ message }}</li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+
+<!-- Footer -->
+<footer class="footer">
+  <a href="https://www.aviva.co.uk/services/about-our-business/products-and-services/privacy-policy/" target="_blank">Privacy Policy</a>
+  <a href="https://static.aviva.io/content/dam/aviva-corporate/documents/socialpurpose/pdfs/aviva-modern-slavery-statement-2024.pdf" target="_blank">Modern Slavery Statement</a>
+  <a href="https://www.aviva.com/legal/" target="_blank">Legal</a>
+</footer>
+</div>
+</body>
+</html>

@@ -1,0 +1,419 @@
+/* Colours were sampled from https://www.aviva.co.uk/ using Microsoft Power Toys Colour Picker tool to maintain brand consistency. Added to root the most reused elements. Fonts used were sampled from the Aviva Brand Guide's back up fonts (default fonts were not widely web supported). */
+:root {
+  --aviva-blue: #1C1F62;
+  --aviva-yellow: #FDD900;
+  --light-blue: #9ccdfb;
+  --mid-blue-button: #1034bf;
+  --dark-blue-button: #191d64;
+  --dark-green: #00251f;
+  --dark-purple: #26193e;
+  --sand-banner: #fefde3;
+  --grey: #777575c8;
+  --white: #FFFFFF;
+  --black: #000000;
+  --red: #7d0303;
+  --font-family-header: 'Lora', serif;
+  --font-family-body: 'Schibsted Grotesk', sans-serif;
+}
+
+body {
+  background-color: var(--white);
+  color: var(--black);
+  text-align: center;  
+  padding-bottom: 80px;
+  margin: 0;
+}
+
+/* Fonts */
+h1 {
+  display: inline-block;       
+  color: var(--aviva-blue);
+  padding: 10px 20px;              
+  border-radius: 25px;             
+  font-family: var(--font-family-header);
+  font-size: 24px;
+  font-weight: bold;
+  margin: 20px 0;                  
+  text-align: center;              
+}
+
+h2
+{
+    font-family: var(--font-family-body);
+    font-weight: bolder;
+    font-size: 150%;
+    color: var(--aviva-blue);
+}
+
+h3, h4, h5, h6 {
+  font-family: var(--font-family-body);
+  font-weight: var(--font-weight-normal);
+  color: var(--white);
+}
+
+/* Buttons */
+/* Blue button */
+.blue-button {
+    padding: 12px 24px;
+    font-family: var(--font-family-body);  
+    font-size: 100%; 
+    border-radius: 20px;
+    font-weight: bold;
+    display: inline-block;
+    cursor: pointer;
+    transition: all 0.2s ease; 
+    background-color: var(--mid-blue-button); 
+    color: var(--white);
+    text-decoration: none;   
+    border: none;   
+    line-height: 1.2;
+    vertical-align: middle;          
+    }
+
+.blue-button:hover {
+    opacity: 0.9;
+    transform: translateY(-3px); 
+    background-color: var(--dark-purple); 
+    box-shadow: 0px 3px 6px var(--black);
+    transition: all 0.5s ease;
+
+}
+
+.light-blue-button {
+    padding: 12px 24px;
+    font-family: var(--font-family-body);  
+    font-size: 100%; 
+    border-radius: 20px;
+    font-weight: bold;
+    display: inline-block;
+    cursor: pointer;
+    transition: all 0.2s ease; 
+    background-color: var(--light-blue); 
+    color: var(--dark-purple);
+    text-decoration: none;   
+    border: none;   
+    line-height: 1.2;
+    vertical-align: middle;          
+    }
+
+.light-blue-button:hover {
+    opacity: 0.9;
+    transform: translateY(-3px); 
+    color: var(--white);
+    background-color: var(--aviva-blue); 
+    box-shadow: 0px 3px 6px var(--black);
+    transition: all 0.5s ease;
+
+}
+
+.red-button {
+    padding: 12px 24px;
+    font-family: var(--font-family-body);  
+    font-size: 100%; 
+    border-radius: 20px;
+    font-weight: bold;
+    display: inline-block;
+    cursor: pointer;
+    transition: all 0.2s ease; 
+    background-color: var(--white);
+    color: var(--red);
+    text-decoration: none;
+    border: solid 2px;   
+    border-color: (var(--red));
+    line-height: 1.2;
+    vertical-align: middle;          
+    }
+
+.red-button:hover {
+    opacity: 0.9;
+    transform: translateY(-5px);
+    color: var(--white);
+    background-color:  var(--red);
+    border: none;
+    box-shadow: 0px 3px 6px var(--black);
+    transition: all 0.5s ease;
+
+}
+
+/* Header Banner */
+.header-banner {
+  background-color: var(--aviva-yellow);
+  color: var(--aviva-blue);
+  display: flex;
+  align-items: center;        
+  justify-content: center;    
+  padding: 5px 20px;          
+  height: 60px;           
+  position: relative;
+}
+
+.header-banner .header-logo-link {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%); 
+  display: inline-block;
+}
+
+.header-banner .header-logo-link img {
+  height: 100px;
+  display: block;
+  transition: transform 0.2s ease; 
+}
+
+.header-banner .header-logo-link:hover img {  
+  transform: scale(1.2);
+  transition: transform 0.5s ease;   
+}
+
+.header-banner .header-button {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.header-banner h1 {
+  margin: 0;
+  font-family: var(--font-family-header);
+  font-size: 150%;
+  letter-spacing: 0.1em;
+  font-weight: bolder;
+  text-align: center;
+  padding-left: 140px;
+}
+
+/* Footer */
+.footer {
+  background-color: var(--aviva-blue);
+  color: var(--grey);
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  padding: 20px;
+
+  /* Pin it to bottom */
+  position: fixed;   
+  bottom: 0;         
+  left: 0;
+  width: 100%;     
+}
+
+.footer a {
+  color: var(--grey);
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.footer a:hover {
+  text-decoration: underline;
+  color: var(--white);
+  transition: all 0.2s ease;
+  transform: scale(1.05);
+}
+
+/* Card Layout */
+.card-container {
+  display: flex;
+  justify-content: center;  
+  margin: 40px 20px;        
+}
+
+.card {
+  display: flex;
+  max-width: 60%;
+  background-color: var(--dark-green);    
+  padding: 20px;
+  border-radius: 40px;
+}
+
+.card-image {
+  width: 50%;
+  border-radius: 20px;
+  transition: transform 0.5s ease; 
+}
+
+.card-image:hover {
+  transform: scale(1.05);
+}
+
+.card-text {   
+    display: block;         
+  text-align: center;
+  color: var(--white);
+  padding: 30px 40px;
+    font-family: var(--font-family-body);
+}
+
+/* Login and signup form */
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    text-align: left;
+    margin: 0 auto;
+    max-width: 600px;
+}
+
+.form-input {  
+  text-align: left;
+  width: 95%;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid var(--grey);
+  font-family: var(--font-family-body);
+  font-size: 16px;
+  align-items: right;
+  margin-bottom: 15px;
+}
+form input[type="text"],
+form input[type="date"],
+form textarea {
+  
+    width: 90%;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid var(--grey);
+    font-size: 16px;
+    font-family: var(--font-family-body);    
+}
+
+form label {
+    display: inline-block;
+    width: 150px;   
+    font-weight: bold;
+    text-align: left;
+}
+
+.flash-messages {
+    list-style-position: inside;
+    padding-left: 0;
+    margin-left: 0;
+    text-align: center;
+  font-weight: bold;
+}
+
+/* Table */
+table {
+    border-collapse: collapse;
+    width: 90%;
+    margin: 20px auto;
+    margin-top: 20px;
+    font-family: var(--font-family-body);
+    font-size: 14px;
+    padding: 20px;
+    color: var(--black);
+}
+
+th, td {
+    border: 2px var(--aviva-blue) solid;
+    padding: 10px;
+    text-align: left;
+}
+
+th {
+    background-color: var(--aviva-blue);
+    color: var(--aviva-yellow);
+    font-family: var(--font-family-header);
+    text-align: center;
+}
+
+tr:nth-child(even) {
+    background-color: var(--sand-banner);
+}
+
+table td:first-child,
+table th:first-child,
+table th:nth-child(3),
+table td:nth-child(3),
+table th:nth-child(4),
+table td:nth-child(4),
+table th:nth-child(5),
+table td:nth-child(5),
+table th:nth-child(7),
+table td:nth-child(7) {
+    text-align: center;
+}
+
+tr:hover {
+    background-color: var(--aviva-yellow);
+}
+
+a {
+    color: var(--mid-blue-button);
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.project-table-card {
+  background: #00251f;
+  border-radius: 20px;
+  padding: 30px 30px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+  width: 95%;
+  max-width: 95%;
+  margin: 0 auto 30px auto;
+}
+
+/* Aviva Blue Checkbox for Admin Column */
+input[type="checkbox"].admin-checkbox:checked {
+  accent-color: var(--aviva-blue);
+}
+
+input[type="checkbox"].admin-checkbox {
+  accent-color: var(--aviva-blue);
+}
+
+/* Toggle Switch for Admin (Aviva Blue) */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 46px;
+  height: 26px;
+}
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+.slider {
+  position: absolute;
+  cursor: not-allowed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: .4s;
+  border-radius: 26px;
+}
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 20px;
+  width: 20px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: .4s;
+  border-radius: 50%;
+}
+input:checked + .slider {
+  background-color: var(--aviva-blue);
+}
+input:checked + .slider:before {
+  transform: translateX(20px);
+}
+.slider.round {
+  border-radius: 26px;
+}
+.slider.round:before {
+  border-radius: 50%;
+}
+
+
+

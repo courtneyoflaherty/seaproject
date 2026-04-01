@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link href="https://fonts.cdnfonts.com/css/schibsted-grotesk" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit Developer - Aviva Project Tracker</title>
+</head>
+<body>
+
+<!-- Header Banner -->
+<div class="header-banner">
+  <a href="/" class="header-logo-link">
+    <img src="https://static.aviva.io/content/dam/aviva-corporate/images/article-page-and-carousel-840-x-473/different-sized-images/aviva-primary-logo-transparent-blue-240-135px.svg" 
+         alt="Aviva Logo">
+  </a>
+  <h1>Aviva Project Allocation Tracker</h1>
+  <!-- Checks if admin privileges for access to User Management-->
+  {% if session.get('is_admin') %}
+    <a href="{{ url_for('user_management') }}" class="blue-button header-button" style="right: 140px; background-color: var(--dark-green);">User Management</a>
+  {% endif %}
+  <a href="{{ url_for('logout') }}" class="blue-button header-button">Sign Out</a>
+</div>
+
+<!-- White spacer -->
+<div style="height: 40px;"></div>
+
+<!-- Blue container -->
+<div style="background: var(--aviva-blue); border-radius: 30px; padding: 40px 0; width: 95vw; max-width: 1800px; margin: 0 auto 50px auto; display: flex; justify-content: center; align-items: flex-start; position: relative;">
+
+  <!-- White inner container -->
+  <div style="background: #fff; border-radius: 30px; padding: 40px; width: 90vw; max-width: 900px; min-width: 320px; margin: 0 auto; position: relative;">
+
+    <!-- Yellow Text Box -->
+    <h1 style="background-color: var(--aviva-yellow); border-radius: 20px; padding: 10px 30px; display: inline-block;">Edit Developer</h1>
+
+    <!-- Flash messages for user feedback -->
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul class="flash-messages" style="margin-bottom: 20px; list-style: none; padding: 0; font-weight: bold; text-align: center;">
+          {% for message in messages %}
+            <li>{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+
+    <!-- Edit Developer Form -->
+    <form method="POST" action="{{ url_for('edit_developer', id=developer.id) }}" style="width: 100%; margin: auto;">
+
+      <!-- First Name -->
+      <div style="padding: 15px; display: flex; flex-direction: row; align-items: center; gap: 18px;">
+        <label for="first_name" style="font-weight: bold; min-width: 170px; margin-bottom: 0;">First Name:</label>
+        <input 
+          id="first_name" 
+          type="text" 
+          name="first_name" 
+          value="{{ developer.first_name }}" 
+          required
+          pattern="^(?=(?:.*[A-Za-z]){2,})[^\d]+$"
+          title="Must include at least 2 letters and cannot contain numbers."
+          style="flex: 1; width: 100%;">
+      </div>
+
+      <!-- Surname -->
+      <div style="padding: 15px; display: flex; flex-direction: row; align-items: center; gap: 18px;">
+        <label for="surname" style="font-weight: bold; min-width: 170px; margin-bottom: 0;">Surname:</label>
+        <input 
+          id="surname" 
+          type="text" 
+          name="surname" 
+          value="{{ developer.surname }}" 
+          required
+          pattern="^(?=(?:.*[A-Za-z]){2,})[^\d]+$"
+          title="Must include at least 2 letters and cannot contain numbers."
+          style="flex: 1; width: 100%;">
+      </div>
+
+      <!-- Email -->
+      <div style="padding: 15px; display: flex; flex-direction: row; align-items: center; gap: 18px;">
+        <label for="email" style="font-weight: bold; min-width: 170px; margin-bottom: 0;">Email:</label>
+        <input      
+            id="email" 
+                type="email" 
+                name="email" 
+                required 
+                minlength="2"
+                maxlength="254" 
+                pattern="^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$"
+                value="{{ developer.email }}" 
+                title="Developer email must be at least 2 characters long, contain an '@' symbol, and not exceed 254 characters." 
+                style="flex: 1; width: 100%;">
+      </div>
+
+      <!-- Developer Skills -->
+      <div style="padding: 15px; display: flex; flex-direction: row; align-items: flex-start; gap: 18px;">
+        <label style="font-weight: bold; min-width: 170px; margin-bottom: 0;">Skills:</label>
+        <div style="display: flex; gap: 18px; flex-wrap: wrap; align-items: center; flex: 1;">
+          {% for skill in ['Appian', 'Appian RPA', 'BluePrism', 'Power Apps', 'Tungsten'] %}
+            <label style="display: flex; align-items: center; gap: 4px; margin-bottom: 0; font-weight: normal;">
+              <input 
+                type="checkbox" 
+                name="skills" 
+                value="{{ skill }}"
+                {% if skill in developer.skills %}checked{% endif %}> {{ skill }}
+            </label>
+          {% endfor %}
+        </div>
+      </div>
+
+      <!-- Project Assignment Details -->
+       <!-- Developer Time Allocation -->
+      <div style="padding: 15px; display: flex; flex-direction: row; align-items: center; gap: 18px;">
+        <label for="time_allocation" style="font-weight: bold; min-width: 170px; margin-bottom: 0;">Time Allocation (%):</label>
+        <input 
+          id="time_allocation" 
+          type="number" 
+          name="time_allocation"
+          title="Please select a number that is between 0.01-100" 
+          min="0.01" 
+          max="100" 
+          step="0.01"
+          value="{{ assignment.time_allocation if assignment else '' }}" 
+          style="flex: 1; width: 100%;">
+      </div>
+
+      <!-- Developer Assignment Start Date -->
+       <div style="padding: 15px; display: flex; flex-direction: row; align-items: center; gap: 18px;">
+        <label for="assignment_start" style="font-weight: bold; min-width: 170px; margin-bottom: 0;">Assignment Start Date:</label>
+        <input 
+          id="assignment_start" 
+          type="date" 
+          name="assignment_start" 
+          value="{{ assignment.assignment_start_date if assignment else '' }}" 
+          title="Please select a start date"
+          style="flex: 1; width: 100%;">
+      </div>
+
+      <!-- Developer Assignment End Date -->
+      <div style="padding: 15px; display: flex; flex-direction: row; align-items: center; gap: 18px;">
+        <label for="assignment_end" style="font-weight: bold; min-width: 170px; margin-bottom: 0;">Assignment End Date:</label>
+        <input 
+          id="assignment_end" 
+          type="date" 
+          name="assignment_end" 
+          value="{{ assignment.assignment_end_date if assignment else '' }}" 
+          title="Please select an end date"
+          style="flex: 1; width: 100%;">
+      </div>
+
+       <!-- Script to ensure at least 1 required skill is selected -->
+          <!-- Script to make child fields required when a developer is selected -->
+    <script>
+      const assignedDev = document.getElementById('assigned_developer');
+      const timeAlloc = document.getElementById('time_allocation');
+      const assignStart = document.getElementById('assignment_start');
+      const assignEnd = document.getElementById('assignment_end');
+
+      function updateRequiredFields() {
+        const required = assignedDev.value !== '';
+        timeAlloc.required = required;
+        assignStart.required = required;
+        assignEnd.required = required;
+      }
+
+      assignedDev.addEventListener('change', updateRequiredFields);
+      window.addEventListener('DOMContentLoaded', updateRequiredFields);
+    </script>
+
+      <!-- Container for Buttons -->
+       <div style="display: flex; justify-content: center; gap: 20px; padding: 15px;">
+         <!-- Submit Button -->
+        <button type="submit" class="blue-button">Save Changes</button>
+        <!-- Back to Developers Button -->
+        <a href="{{ url_for('developer_view') }}" class="light-blue-button">Back to Developers</a>
+      </div>
+    </form>
+  </div>
+</div>
+<!-- Footer -->
+<footer class="footer">
+  <a href="https://www.aviva.co.uk/services/about-our-business/products-and-services/privacy-policy/" target="_blank">Privacy Policy</a>
+  <a href="https://static.aviva.io/content/dam/aviva-corporate/documents/socialpurpose/pdfs/aviva-modern-slavery-statement-2024.pdf" target="_blank">Modern Slavery Statement</a>
+  <a href="https://www.aviva.com/legal/" target="_blank">Legal</a>
+</footer>
+</div>
+</body>
+</html>

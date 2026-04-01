@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="https://fonts.cdnfonts.com/css/schibsted-grotesk" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit User - Aviva Project Tracker</title>
+</head>
+<body>
+
+    <!-- Header -->
+<div class="header-banner">
+    <a href="/" class="header-logo-link">
+        <img src="https://static.aviva.io/content/dam/aviva-corporate/images/article-page-and-carousel-840-x-473/different-sized-images/aviva-primary-logo-transparent-blue-240-135px.svg" alt="Aviva Logo">
+    </a>
+    <h1>Aviva Project Allocation Tracker</h1>
+  <!-- Checks if admin privileges for access to User Management-->
+  {% if session.get('is_admin') %}
+    <a href="{{ url_for('user_management') }}" class="blue-button header-button" style="right: 140px; background-color: var(--dark-green);">User Management</a>
+  {% endif %}
+  <a href="{{ url_for('logout') }}" class="blue-button header-button">Sign Out</a>
+</div>
+
+    <!-- White box for space -->
+    <div style="height: 40px;"></div>
+
+    <!-- Blue Background Container -->
+    <div style="background: var(--aviva-blue); border-radius: 30px; padding: 40px 0 40px 0; width: 95vw; max-width: 1800px; margin: 0 auto 50px auto; display: flex; justify-content: center; align-items: flex-start; position: relative;">
+
+        <!-- White Background Container -->
+        <div style="background: #fff; border-radius: 30px; padding: 40px 40px 30px 40px; width: 90vw; max-width: 900px; min-width: 320px; margin: 0 auto; display: block; position: relative;">
+            
+            <!-- Yellow Text Box -->
+            <h1 style="background-color: var(--aviva-yellow); border-radius: 20px; padding: 10px 30px; display: inline-block;">Edit User</h1>
+
+            <!-- Flash messages for user feedback -->
+            {% with messages = get_flashed_messages() %}
+              {% if messages %}
+                <ul class="flash-messages" style="margin-bottom: 20px; list-style: none; padding: 0; font-weight: bold; text-align: center;">
+                  {% for message in messages %}
+                    <li>{{ message }}</li>
+                  {% endfor %}
+                </ul>
+              {% endif %}
+            {% endwith %}
+
+         <!-- Edit user form --> 
+        <form method="POST" action="{{ url_for('edit_user', id=user.id) }}" style="width: 100%; margin: auto;">   
+
+         <!-- First Name -->
+      <div style="padding: 15px; display: flex; flex-direction: row; align-items: center; gap: 18px;">
+        <label for="first_name" style="font-weight: bold; min-width: 170px; margin-bottom: 0;">First Name:</label>
+        <input 
+          id="first_name" 
+          type="text" 
+          name="first_name" 
+          value="{{ user.first_name }}" 
+          required
+          pattern="^[A-Za-z\s'-]{2,}$"
+          title="Must include at least 2 letters and cannot contain numbers."
+          style="flex: 1; width: 100%;">
+      </div>
+
+      <!-- Surname -->
+      <div style="padding: 15px; display: flex; flex-direction: row; align-items: center; gap: 18px;">
+        <label for="surname" style="font-weight: bold; min-width: 170px; margin-bottom: 0;">Surname:</label>
+        <input 
+          id="surname" 
+          type="text" 
+          name="surname" 
+          value="{{ user.surname }}" 
+          required
+          pattern="^[A-Za-z\s'-]{2,}$"
+          title="Must include at least 2 letters and cannot contain numbers."
+          style="flex: 1; width: 100%;">
+      </div>
+
+         <!-- Email -->
+      <div style="padding: 15px; display: flex; flex-direction: row; align-items: center; gap: 18px;">
+        <label for="email" style="font-weight: bold; min-width: 170px; margin-bottom: 0;">Email:</label>
+        <input      
+            id="email" 
+                type="email" 
+                name="email" 
+                required 
+                minlength="5"
+                maxlength="254" 
+                pattern="^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$"
+                value="{{ user.email }}" 
+                title="User email must be at least 5 characters long, contain an '@' symbol, and not exceed 254 characters." 
+                style="flex: 1; width: 100%;">
+      </div>
+
+        <!-- Admin Checkbox -->
+        <div style="padding: 15px; display: flex; flex-direction: row; align-items: center; gap: 18px;">
+            <label for="is_admin" style="font-weight: bold; min-width: 170px; margin-bottom: 0;">Admin:</label>
+            <input 
+                id="is_admin" 
+                type="checkbox" 
+                name="is_admin" 
+                {% if user.is_admin %}checked{% endif %} 
+                style="transform: scale(1.5);">
+        </div>
+
+
+         <!-- Container for Buttons -->
+       <div style="display: flex; justify-content: center; gap: 20px; padding: 15px;">
+         <!-- Submit Button -->
+        <button type="submit" class="blue-button">Save Changes</button>
+        <!-- Back to Users  Button -->
+        <a href="{{ url_for('user_management') }}" class="light-blue-button">Back to User Management</a>
+      </div>
+    </form>
+  </div>
+</div>
+<!-- Footer -->
+<footer class="footer">
+  <a href="https://www.aviva.co.uk/services/about-our-business/products-and-services/privacy-policy/" target="_blank">Privacy Policy</a>
+  <a href="https://static.aviva.io/content/dam/aviva-corporate/documents/socialpurpose/pdfs/aviva-modern-slavery-statement-2024.pdf" target="_blank">Modern Slavery Statement</a>
+  <a href="https://www.aviva.com/legal/" target="_blank">Legal</a>
+</footer>
+</div>
+</body>
+</html>

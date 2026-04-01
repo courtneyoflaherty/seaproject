@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>  
+  <link href="https://fonts.cdnfonts.com/css/schibsted-grotesk" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Delete Project - Aviva Project Tracker</title>
+</head>
+<body>
+
+<!-- Header -->
+<div class="header-banner">
+    <a href="/" class="header-logo-link">
+        <img src="https://static.aviva.io/content/dam/aviva-corporate/images/article-page-and-carousel-840-x-473/different-sized-images/aviva-primary-logo-transparent-blue-240-135px.svg" alt="Aviva Logo">
+    </a>
+  <h1>Aviva Project Allocation Tracker</h1>
+   <!-- Checks if admin privileges for access to User Management-->
+  {% if session.get('is_admin') %}
+    <a href="{{ url_for('user_management') }}" class="blue-button header-button" style="right: 140px; background-color: var(--dark-green);">User Management</a>
+  {% endif %}
+  <a href="{{ url_for('logout') }}" class="blue-button header-button">Sign Out</a>
+</div>
+
+<!-- White box for space -->
+<div style="height: 40px;"></div>
+
+<!-- Blue Background Container -->
+  <div style="background: var(--aviva-blue); border-radius: 30px; padding: 40px 0 40px 0; width: 95vw; max-width: 1800px; margin: 0 auto 50px auto; display: flex; justify-content: center; align-items: flex-start; position: relative;">
+
+  <!-- White Background Container -->
+     <div style="background: #fff; border-radius: 30px; padding: 40px 40px 30px 40px; width: 90vw; max-width: 900px; min-width: 320px; margin: 0 auto; display: block; position: relative;">
+    
+    <!-- Yellow Text Box -->
+         <h1 style="background-color: var(--aviva-yellow); border-radius: 20px; padding: 10px 30px; display: inline-block;">Delete Project</h1>
+    
+ <!-- Flash messages for user feedback -->
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul class="flash-messages" style="margin-bottom: 20px; list-style: none; padding: 0; font-weight: bold; text-align: center;">
+          {% for message in messages %}
+            <li>{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+
+   <!-- Warning message -->
+    <p style="color: var(--aviva-red); font-weight: bold; margin-bottom: 20px;">
+      Warning: You are about to delete the following project. This action cannot be undone. Please review the project details below before proceeding.
+    </p>
+
+    <!-- Deletion form — displays project details as read-only -->
+    <form id="delete-form" method="POST" action="{{ url_for('delete_project', id=project.id) }}">
+      
+      <!-- Project ID -->
+      <div style="padding: 15px; display: flex; flex-direction: row; align-items: center; gap: 18px;">
+        <label for="id" style="font-weight: bold; min-width: 170px; margin-bottom: 0;">Project ID:</label>
+        <input 
+          id="id" 
+          type="text" 
+          value="{{ project.id }}" 
+          disabled 
+          style="flex: 1; width: 100%;">
+      </div>
+
+      <!-- Project Name -->
+      <div style="padding: 15px; display: flex; flex-direction: row; align-items: center; gap: 18px;">
+        <label for="name" style="font-weight: bold; min-width: 170px; margin-bottom: 0;">Project Name:</label>
+        <input 
+          id="name" 
+          type="text" 
+          value="{{ project.name }}" 
+          disabled 
+          style="flex: 1; width: 100%;">
+      </div>
+
+      <!-- Description -->
+      <div style="padding: 15px; display: flex; flex-direction: row; align-items: flex-start; gap: 18px;">
+        <label for="description" style="font-weight: bold; min-width: 170px; margin-bottom: 0;">Description:</label>
+        <input
+          id="description" 
+          type="text"
+          value="{{project.description}}"
+          disabled 
+          style="flex: 1; width: 100%;">        
+      </div>
+
+      <!-- Start Date -->
+      <div style="padding: 15px; display: flex; flex-direction: row; align-items: center; gap: 18px;">
+        <label for="start_date" style="font-weight: bold; min-width: 170px; margin-bottom: 0;">Start Date:</label>
+        <input 
+          id="start_date" 
+          type="date" 
+          value="{{ project.start_date }}" 
+          disabled 
+          style="flex: 1; width: 100%;">
+      </div>
+
+      <!-- End Date -->
+      <div style="padding: 15px; display: flex; flex-direction: row; align-items: center; gap: 18px;">
+        <label for="end_date" style="font-weight: bold; min-width: 170px; margin-bottom: 0;">End Date:</label>
+        <input 
+          id="end_date" 
+          type="date" 
+          value="{{ project.end_date }}" 
+          disabled 
+          style="flex: 1; width: 100%;">
+      </div>
+
+      <!-- Required Skills-->
+      <div style="padding: 15px; display: flex; flex-direction: row; align-items: center; gap: 18px;">
+        <label for="required_skills" style="font-weight: bold; min-width: 170px; margin-bottom: 0;">Required Skills:</label>
+       <input 
+          id="required_skills" 
+          type="text" 
+          value="{{ skills_list|join(', ') }}" 
+          disabled 
+          style="flex: 1; width: 100%;">
+      </div>
+
+      <!-- Assigned Developer -->
+      <div style="padding: 15px; display: flex; flex-direction: row; align-items: center; gap: 18px;">
+        <label for="assigned_dev" style="font-weight: bold; min-width: 170px; margin-bottom: 0;">Assigned Developer:</label>
+        <input 
+          id="assigned_dev" 
+          type="text" 
+          value="{% if assignment %}{% for developer in developers %}{% if developer.id == assignment.developer_id %}{{ developer.first_name }} {{ developer.surname }}{% endif %}{% endfor %}{% else %}N/A{% endif %}" 
+          disabled 
+          style="flex: 1; width: 100%;">
+      </div>
+
+      <!-- Time Allocation -->
+      <div style="padding: 15px; display: flex; flex-direction: row; align-items: center; gap: 18px;">
+        <label for="time_allocation" style="font-weight: bold; min-width: 170px; margin-bottom: 0;">Time Allocation (%):</label>
+        <input 
+          id="time_allocation" 
+          type="text" 
+          value="{{ assignment.time_allocation if assignment else 'N/A' }}" 
+          disabled 
+          style="flex: 1; width: 100%;">
+      </div>
+
+      <!-- Assignment Start Date-->
+      <div style="padding: 15px; display: flex; flex-direction: row; align-items: center; gap: 18px;">
+        <label for="assignment_start" style="font-weight: bold; min-width: 170px; margin-bottom: 0;">Assignment Start Date:</label>
+        <input 
+        id="assignment_start" 
+        type="date" 
+        name="assignment_start" 
+        value="{{ assignment.assignment_start_date }}" 
+        disabled 
+        style="flex: 1; width: 100%;">
+      </div>
+
+      <!-- Assignment End Date -->
+      <div style="padding: 15px; display: flex; flex-direction: row; align-items: center; gap: 18px;">
+        <label for="assignment_end" style="font-weight: bold; min-width: 170px; margin-bottom: 0;">Assignment End Date:</label>
+        <input 
+          id="assignment_end" 
+          type="date" 
+          name="assignment_end" 
+          value="{{ assignment.assignment_end_date }}" 
+          disabled 
+          style="flex: 1; width: 100%;">
+      </div>
+
+        <!-- Container for Buttons -->
+      <div style="display: flex; justify-content: center; gap: 20px; padding: 15px;">
+           <!-- Submit Button -->
+        <button type="submit" class="red-button">Confirm Delete</button>
+        <!-- Back to Projects Button -->
+        <a href="{{ url_for('project_view') }}" class="light-blue-button">Cancel</a>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Script to prompt users for additional confirmation before deletion-->
+<script>
+  document.getElementById('delete-form').addEventListener('submit', function(event) {
+    if (!confirm('Are you sure you want to delete this project? This cannot be undone.')) {
+      event.preventDefault();
+    }
+  });
+</script>
+
+<!-- Footer -->
+<footer class="footer">
+  <a href="https://www.aviva.co.uk/services/about-our-business/products-and-services/privacy-policy/" target="_blank">Privacy Policy</a>
+  <a href="https://static.aviva.io/content/dam/aviva-corporate/documents/socialpurpose/pdfs/aviva-modern-slavery-statement-2024.pdf" target="_blank">Modern Slavery Statement</a>
+  <a href="https://www.aviva.com/legal/" target="_blank">Legal</a>
+</footer>
+</div>
+</body>
+</html>
