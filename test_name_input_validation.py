@@ -1,7 +1,6 @@
 # Tests name input validation
 import pytest
 from app import sanitise_name 
-import re
 
 # Test valid name examples:
 def test_valid_names():

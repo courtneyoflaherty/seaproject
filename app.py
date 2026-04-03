@@ -22,7 +22,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db.init_app(app)
 with app.app_context():
     db.create_all()
-from exampledata import example_data    
+from example_data import example_data    
 with app.app_context():
     example_data()
 
