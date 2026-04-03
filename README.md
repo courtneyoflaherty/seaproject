@@ -35,19 +35,27 @@ This was developed on Windows so users are advised to run on the same OS if runn
 Alternatively this will also be hosted online via Render.
 
 ### Executing application
+
+In web navigate to https://projectallocationtracker.onrender.com.
+
+Alternatively to run locally: 
 1) Download the project and open in your IDE of choice
 2) Open a terminal in the project root level
-3) Activate the virtual environment by inputting in terminal:
-   venv\Scripts\activate
-4) Run the application locally by inputting in terminal:
+3) Create virtual environment by running in the terminal:
+   python -m venv venv
+4) Activate the virtual environment by inputting in terminal:
+   venv\Scripts\activate.bat
+5) Install dependencies by running:
+   pip install -r requirements.txt
+6) Run the application locally by inputting in terminal:
    python app.py
-5) Upon a successful terminal message, open a web browser and navigate to:
+7) Upon a successful terminal message, open a web browser and navigate to:
    http://127.0.0.1:5000/
-6) The application should be running successfully now. Any issues please run the following in terminal:
+8) The application should be running successfully now. Any issues please run the following in terminal:
    python -m venv venv 
    venv\Scripts\activate 
    pip install -r requirements.txt
-7) The database will initialise with example data each time so the .db file can be deleted and will rebuild everytime the 'python app.py' command is entered to support testing and demonstration
+9) The database will initialise with example data each time so the .db file can be deleted and will rebuild everytime the 'python app.py' command is entered to support testing and demonstration
 
 then run:
    python app.py
